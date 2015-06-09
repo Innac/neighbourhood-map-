@@ -1,0 +1,1 @@
+http://www.sundoginteractive.com/sunblog/posts/working-with-dynamic-markers-in-google-maps-js-api
