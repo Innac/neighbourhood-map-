@@ -11,18 +11,32 @@
   <link rel="stylesheet" href="css/style.css">
   <!-- <link rel="icon" type="image/png" href="images/favicon.png"> -->
   
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+  <script src="js/places.json"></script>
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
-<body>
+<body onload = "initialize()">
   <header></header>
   <div class="container">
     <div id="map-canvas"></div>
   </div>
-
-  <script>
-    
-  </script>
   <script src="js/map.js"></script>
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $.getJSON("http://jsonblob.com/55787388e4b022544a270c08", function(json1) {
+          $.each(json1, function(key, data) {
+            var latLng = new google.maps.LatLng(data.lat, data.lng); 
+            // Creating a marker and putting it on the map
+            var marker = new google.maps.Marker({
+            position: latLng,
+            title: data.title
+          });
+          marker.setMap(map);
+          });
+        });
+
+      });
+    </script>
 </body>
 </html>
