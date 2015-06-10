@@ -17,7 +17,28 @@ var map;
 
 // The JSON data
 var json = [
-{"id":48,"title":"Helgelandskysten","longitude":"12.63376","latitude":"66.02219", "description":"ffff"},{"id":46,"title":"Tysfjord","longitude":"16.50279","latitude":"68.03515"},{"id":44,"title":"Sledehunds-ekspedisjon","longitude":"7.53744","latitude":"60.08929"},{"id":43,"title":"Amundsens sydpolferd","longitude":"11.38411","latitude":"62.57481"},{"id":39,"title":"Vikingtokt","longitude":"6.96781","latitude":"60.96335"},{"id":6,"title":"Tungtvann- sabotasjen","longitude":"8.49139","latitude":"59.87111"}];
+	{
+		
+		"title":"Perkuno al.3a",
+		"latitude":"54.89699",
+		"longitude":"23.93407", 
+		"description":"ffff"
+	},{	
+		"id":46,
+		"title":"Varniu tiltas",
+		"latitude":"54.91446",
+		"longitude":"23.90941"
+	},{
+		"id":44,
+		"title":"Smalininku g.7",
+		"latitude":"54.89545",
+		"longitude":"23.89888"
+	},{
+		"id":43,
+		"title":"Veiveriu g.50",
+		"latitude":"54.89202",
+		"longitude":"23.89046"
+}];
 
 function initialize() {
   
