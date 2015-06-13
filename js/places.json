@@ -1,20 +1,23 @@
-[
+var markers = [
   {
-    "title": "Stockholm",
-    "lat": 59.3,
-    "lng": 18.1,
-    "description": "Stockholm is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
-  },
-  {
-    "title": "Oslo",
-    "lat": 59.9,
-    "lng": 10.8,
-    "description": "Oslo is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
-  },
-  {
-    "title": "Copenhagen",
-    "lat": 55.7,
-    "lng": 12.6,
-    "description": "Copenhagen is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
-  }
-]
+    
+    "title":"Perkuno al.3a",
+    "latitude":"54.89699",
+    "longitude":"23.93407", 
+    "description":"ffff"
+  },{ 
+    "id":46,
+    "title":"Varniu tiltas",
+    "latitude":"54.91446",
+    "longitude":"23.90941"
+  },{
+    "id":44,
+    "title":"Smalininku g.7",
+    "latitude":"54.89545",
+    "longitude":"23.89888"
+  },{
+    "id":43,
+    "title":"Veiveriu g.50",
+    "latitude":"54.89202",
+    "longitude":"23.89046"
+}];
