@@ -1,22 +1,7 @@
-// $(document).ready(initialize);
-// var map;
-
-// function initialize() {
-//     var mapCanvas = document.getElementById('map-canvas');
-// 		var mapOptions = {
-// 			center: new google.maps.LatLng(54.89852, 23.90360),
-// 			zoom: 14,
-// 			mapTypeId: google.maps.MapTypeId.ROADMAP
-// 		}
-// 	var map = new google.maps.Map(mapCanvas, mapOptions);
-// }
-// google.maps.event.addDomListener(window, 'load', initialize);
-
-
 var map;
 
 // The JSON data
-var json = [
+var markers = [
 	{
 		
 		"title":"Perkuno al.3a",
@@ -44,21 +29,24 @@ function initialize() {
   
   // Giving the map som options
   var mapOptions = {
-    zoom: 14,
+    zoom: 12,
+    // center: new google.maps.LatLng(0, 0),
     center: new google.maps.LatLng(54.89852, 23.90360),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  
+
   // Creating the map
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   
-  
-  // Looping through all the entries from the JSON data
-  for(var i = 0; i < json.length; i++) {
-    
-    // Current object
-    var obj = json[i];
+  var bounds =  new google.maps.LatLngBounds();
 
+  // var myLatLng = new google.maps.LatLngBounds((54.918638, 23.950987), (54.890806, 23.878546));
+
+  // Looping through all the entries from the JSON data
+  for(var i = 0; i < markers.length; i++) {
+    // Current object
+    var obj = markers[i];
+    
     // Adding a new marker for the object
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(obj.latitude,obj.longitude),
@@ -68,8 +56,9 @@ function initialize() {
     
     // Adding a new info window for the object
     var clicker = addClicker(marker, obj.title);
+   
   } // end loop
-
+  
   // Adding a new click event listener for the object
   function addClicker(marker, content) {
     google.maps.event.addListener(marker, 'click', function() {
@@ -79,6 +68,8 @@ function initialize() {
     });
   }
 }
+
+
 
 // Initialize the map
 google.maps.event.addDomListener(window, 'load', initialize);
