@@ -3,28 +3,36 @@
 var CLIENT_ID = 'MVNWONOCWS4U43AYD4HY2HRN1UE0VYK52AV3K1OTV1G51MCV';
 var CLIENT_SECRET = 'ADNBSGJQVLQWFN0HOAV0ZWV52XZVYTUGGMIMNJEXOIU2I1FH';
 var ViewModel;
-var coffee_place;
+var Place;
 
 //JSON, AJAX requests
 
-(function requestJSON(){
+(function requestJSON() {
 	ViewModel.createMap();
-	var urlStart = 'https://api.foursquare.com/v2/venues/search?';
-	var clientID = '?client_id=' + CLIENT_ID;
-	var clientSecret = '&clientSecret=' + CLIENT_SECRET;
-	var userLatLng = '&ll=' + 54.8 + ',' + 23.9;
-	var query  = '&query=coffee';
-	var foursquareURL = urlStart + clientID + clientSecret + userLatLng + query;
-	console.log(foursquareURL);
+	var myCoffeePlacesJSON = 'https://api.myjson.com/bins/53qu0';
+	// request JSON data for favorite coffee places
+	$.ajax({url: myCoffeePlacesJSON,
+		success: function(results) {
+			var mappedPlaces = $.map(results, function(item) {
+				return new Place(item);
+			});
+			// console.log(mappedPlaces);
+			ViewModel.places_array(mappedPlaces);
+			$('.coffee-places-list').show();
 
+			// request Foursquare data
+			for (var i in mappedPlaces) {
+				$.ajax({url: 'https://api.foursquare.com/v2/venues/search?intent=match&limit=1&v=20150515&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&ll=' + mappedPlaces[i].latitude() + ',' + mappedPlaces[i].longitude() + '&query=' + mappedPlaces[i].name(),
+					success: function(data) {
+						var venueID = data.response.venues[0].id;
+						ViewModel.createMarkers(data);
+					}
+				});
+			}
+		}
+	});
+})();
 
-	https://api.foursquare.com/v2/venues/search
-  ?client_id=CLIENT_ID
-  &client_secret=CLIENT_SECRET
-  &v=20130815
-  &ll=40.7,-74
-  &query=sushi
-
-	//request JSON data for coffee places
-	$.ajax({url: foursquareURL})
+$(document).ajaxError(function() {
+	$('.error-popup').show();
 });

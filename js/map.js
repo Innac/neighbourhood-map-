@@ -1,33 +1,75 @@
-var map;
-// var markers = [];
 
-var markers = [
-  {
-    
-    "title":"Perkuno al.3a",
-    "latitude":"54.89699",
-    "longitude":"23.93407", 
-    "description":"ffff"
-  },{ 
-    "id":46,
-    "title":"Varniu tiltas",
-    "latitude":"54.91446",
-    "longitude":"23.90941"
-  },{
-    "id":44,
-    "title":"Smalininku g.7",
-    "latitude":"54.89545",
-    "longitude":"23.89888"
-  },{
-    "id":43,
-    "title":"Veiveriu g.50",
-    "latitude":"54.89202",
-    "longitude":"23.89046"
-}];
+// object to create list
+var Place = function(data) {
+  	'use strict';
+	this.name = ko.observable(data.name);
+	this.latitude = ko.observable(data.lat);
+	this.longitude = ko.observable(data.lng);
+	this.picture = ko.observable(data.img);
+	this.display = ko.observable(true);
+};
 
-function initialize() {
-	// Map options
-	// Coffee map styling
+
+// viewModel
+var ViewModel = {
+	filterTerm: ko.observable(''),
+	places_array: ko.observableArray([]),
+	map: ko.observable(),
+	infoWindow: ko.observable(),
+	markersArray: ko.observableArray([]),
+	companyName: ko.observable(''),
+	companyAddress: ko.observable(''),
+	companyCity: ko.observable(''),
+	companyWebsite: ko.observable(''),
+	companyPhone: ko.observable(''),
+	marker: ko.observable(),
+	display: ko.observable(true)
+};
+
+
+// filter list items
+ViewModel.filter = function() {
+  	'use strict';
+	// convert input values to lowercase
+	var typedValue = ViewModel.filterTerm().toLowerCase();
+
+	$('.coffee-places-list').css('display', 'block'); // show places div
+
+	// iterate through places_array
+	for (var i = 0; i < ViewModel.places_array().length; i++) {
+		// shows or hides list item(s)
+		ViewModel.places_array()[i].display(ViewModel.places_array()[i].name().toLowerCase().search(typedValue) > -1);
+	}
+
+	// check to see if all children in places div are not visible
+	if ($('.coffee-places-list').children(':visible').length === 0) {
+		$('.coffee-places-list').css('display', 'none'); // if no children are visible stop showing places div
+	}
+};
+
+
+// filter map markers
+ViewModel.filterMarkers = function() {
+  	'use strict';
+	// convert input values to lowercase
+	var typedValue = $('.search_box').val().toLowerCase();
+	var vm = ViewModel;
+
+	// iterate through markersArray created in createMarkers function
+	for (var i = 0; i < vm.markersArray().length; i++) {
+		// convert name in list item to lowercase; search for input values
+		if (vm.markersArray()[i].title.toLowerCase().search(typedValue) > -1) {
+			vm.markersArray()[i].setVisible(true);	// show map marker(s)
+		} else {
+			vm.markersArray()[i].setVisible(false);	// hide map marker(s)
+		}
+	}
+};
+
+
+// create map, markers, and instance of infowindow
+ViewModel.createMap = function() {
+	'use strict';
 	var coffee_styles = [{
 			stylers: [{ saturation:0 } ]
 			}, {
@@ -53,7 +95,7 @@ function initialize() {
 			},{
 				featureType:"landscape",
 				elementType:"geometry.fill",
-				stylers:[{color:"#5e4a2c"},{gamma:1}]
+				stylers:[{color:"#4f4028"},{gamma:1}]
 			},{
 				featureType:"water",
 				elementType:"geometry",
@@ -113,79 +155,81 @@ function initialize() {
 					{ visibility: "off" }
 				]
 	}];
-	
-	var mapOptions = {
-		zoom: 12,
-		center: new google.maps.LatLng(54.89852, 23.90360),
-		mapTypeId: google.maps.MapTypeId.ROADMAP,
-		styles: coffee_styles
-	};
 
-	// Creating the map
-	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-// }
+    var myOptions = {
+        zoom: 14,
+        center: new google.maps.LatLng(54.89852, 23.90360), // center of Kaunas
+        streetViewControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl : false, //turns off satellite map view
+        styles: coffee_styles
+    };
+
+    ViewModel.map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
 
 
-//Creates infoWindow for map markers
-// function placeMarkerInfoWindow(marker){
-// 	var infoWindow = new google.maps.InfoWindow();
-
-// 	function createInfoWindow(marker_data) {
-// 		/*
-// 		* Create the DOM element for the marker window
-// 		* Uses marker data to create Business name, phone number, reviewer's picture, and reviewer's review
-// 		*/    
-// 		var infoWindowContent = '<div class="info_content">';
-// 		infoWindowContent += '<h4>' + mk.title + '</h4>';
-// 		infoWindowContent += '<p>' + mk.ph + '</p>';
-// 		infoWindowContent += '<p class="review"><img src="' + mk.pic + '">' + mk.blurb + '</p>';
-// 		infoWindowContent += '</div>';
-// 	}
-
-// 	infoWindow.setContent(String(infoWindowContent));
-// 	infoWindow.open(map, marker_data);
-// };
-
-//Removers map markers and clears markers array
-// function removeMapMarkers () {
-// 	for(var i = 0; i < markers.length; i++) {
-// 		markers[i].setMap(null);
-// 	}
-// 	markers = [];
-// }
-
-// if(allMarkers.length > 0) {
-// 	removeMapMarkers();
-// };
-
-// Looping through all the markers
-for(var i = 0; i < markers.length; i++) {
-    // Current object
-    var obj = markers[i];
-    
-    // Adding a new marker for the object
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(obj.latitude,obj.longitude),
-      map: map,
-      title: obj.title // this works, giving the marker a title with the correct title
-    });
-    
-    // Adding a new info window for the object
-    var clicker = addClicker(marker, obj.title);
-   
-  } // end loop
-  
-  // Adding a new click event listener for the object
-  function addClicker(marker, content) {
-    google.maps.event.addListener(marker, 'click', function() {
-      if (infowindow) {infowindow.close();}
-      infowindow = new google.maps.InfoWindow({content: content});
-      infowindow.open(map, marker); 
-    });
-}
+   $('.coffee-places').show();
 };
 
 
-// Initialize the map
-google.maps.event.addDomListener(window, 'load', initialize);
+// create map markers and information
+ViewModel.createMarkers = function(data, images) {
+  	'use strict';
+	var venue = data.response.venues[0];
+	var latlng = new google.maps.LatLng(venue.location.lat, venue.location.lng);
 
+	ViewModel.marker = new google.maps.Marker({
+		position: latlng,
+		map: ViewModel.map,
+		title: venue.name,
+		display: this.display,
+		image: images,
+		html: 	'<div class="cards-left">' +
+				'<h1 class="name">'+ venue.name + '</h1>' +
+				'<p class="category">' + venue.categories[0].name + '</p>' +
+				'<p class="address">' + venue.location.formattedAddress[0] + '</p>' +
+				'<p class="address">' + venue.location.formattedAddress[1] + '</p>' +
+				'<p class="phone">' + venue.contact.formattedPhone + '</p>' +
+				'<a class="website truncate" href=' + venue.url + '><span class="truncate">' + venue.url + '</span></a>' +
+				'</div>'
+	});
+
+	ViewModel.markersArray.push(ViewModel.marker);
+
+	// cycle through pictures and add to html document
+	google.maps.event.addListener(ViewModel.marker, 'click', function() {
+		$('.place-info').empty();
+		$('.place-info').append(this.html);
+		$('.place-info').show();
+	});
+};
+
+
+// retrieve information from markersArray
+// append information to html document
+ViewModel.pullData = function(d) {
+  	'use strict';
+	var text = $(d).text();
+
+	$('.place-info').empty();
+
+	$.map(ViewModel.markersArray(), function(value, key) {
+		if (value.title.indexOf(text) > -1) {
+			$('.place-info').append(value.html);
+		}
+	});
+
+	$('.place-info').show();
+};
+
+
+// resize google maps on resize
+google.maps.event.addDomListener(window, 'resize', function() {
+    var center = ViewModel.map.getCenter();
+
+ 	google.maps.event.trigger(ViewModel.map, "resize");
+ 	ViewModel.map.setCenter(center);
+});
+
+
+ko.applyBindings(ViewModel);

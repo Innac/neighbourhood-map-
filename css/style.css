@@ -1,7 +1,14 @@
 body {
 	margin: 0;
 	padding: 0;
+	font-family: 'Open Sans', Arial, sans-serif;
 }
+
+*:focus {
+	outline: 0;
+}
+
+pre, blockquote, dl, figure, table, p, ul, ol, form {margin: 0;}
 
 #coffee-map {
 	width:100%;
@@ -9,18 +16,117 @@ body {
 }
 
 #map-canvas {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 	min-height: 800px;
 }
 
-.coffee-places {
-	position: fixed;
-	bottom: 0;
-	left: 0;
+/* SEARCH BOX */
+
+.search {
+	padding: 5px;
+	margin-bottom: 10px;
+	background-color: #fff;
+	border: 1px solid #a79b88;
+	box-shadow: 1px 1px 2px rgba(79, 64, 40, 0.7);
+}
+
+.search_box{
 	width: 100%;
-	height: 50px;
-	background: white;
-	border-top: 1px solid #E7E4DE;
+	border-radius: 0;
+	border:none;
+	height: 40px;
+	font-size: 22px;
+	margin: 0;
+	background: url('../img/search_icon.png') no-repeat;
+	background-position: 99% 50%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/* LIST OF COFFEE PLACES */
+
+.coffee-places {
+	display: none;
+	position: absolute;
+	z-index: 1000;
+	padding: 10px;
+}
+
+.coffee-places-list {
+	display: none;
+	padding: 0;
+	background: #fff;
+	border-top: 1px solid #ccc;
+}
+
+.cafe {
+	list-style: none;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 5px;
+	margin: 0;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.name {
+	font-size: 16px;
+	color: #333;
+	font-weight: normal;
+}
+
+.address {
+	font-size: 12px;
+	color: #acacac;
+}
+
+.category {
+	margin-bottom: 5px;
+	color: #bbb;
+	font-size: 10px;
+}
+
+.place-info {
+	border-radius: 3px;
+	z-index: 1000;
+	font-size: 12px;
 	overflow: hidden;
+	display: none;
+	margin-top: 5px;
+	position: relative;
+	-webkit-box-shadow: 0 2px 5px 0.25px rgba(0,0,0,0.30);
+	-moz-box-shadow: 0 2px 5px 0.25px rgba(0,0,0,0.30);
+	box-shadow: 0 2px 5px 0.25px rgba(0,0,0,0.30);
+}
+
+.cards-left {
+	padding: 10px;
+}
+
+.cards-left {
+	background-color: #eee;
+	color: #a8a8a8;
+	margin: 0;
+	height: 100%;
+}
+
+/* ERROR CONTROL */
+
+.error-popup {
+	display: none;
+	position: absolute;
+	top: calc(40% - 75px);
+	left: calc(50% - 250px);
+	width: 500px;
+	height: 130px;
+	background-color: rgb(240, 240, 240);
+	box-shadow: 1px 1px 3px rgba(41, 27, 7, 0.72);
+	box-sizing: border-box;
+	color: #d52828;
+	padding: 15px;
+	text-align: center;
+	line-height: 30px;
 }
