@@ -153,6 +153,7 @@
 .offline-ui.offline-ui-up {
   background: #d6e9c6;
   color: #468847;
+  display: none;
 }
 /* line 23, ../sass/offline-theme-default-indicator.sass */
 .offline-ui.offline-ui-down {
