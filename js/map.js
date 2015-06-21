@@ -32,13 +32,13 @@ ViewModel.filter = function() {
   	'use strict';
 	// convert input values to lowercase
 	var typedValue = ViewModel.filterTerm().toLowerCase();
-
+	var pa = ViewModel.places_array();
 	$('.coffee-places-list').css('display', 'block'); // show places div
 
 	// iterate through places_array
-	for (var i = 0; i < ViewModel.places_array().length; i++) {
+	for (var i = 0; i < pa.length; i++) {
 		// shows or hides list item(s)
-		ViewModel.places_array()[i].display(ViewModel.places_array()[i].name().toLowerCase().search(typedValue) > -1);
+		pa[i].display(pa[i].name().toLowerCase().search(typedValue) > -1);
 	}
 
 	// check to see if all children in places div are not visible
@@ -54,14 +54,15 @@ ViewModel.filterMarkers = function() {
 	// convert input values to lowercase
 	var typedValue = $('.search_box').val().toLowerCase();
 	var vm = ViewModel;
+	var ma = vm.markersArray();
 
 	// iterate through markersArray created in createMarkers function
-	for (var i = 0; i < vm.markersArray().length; i++) {
+	for (var i = 0; i < ma.length; i++) {
 		// convert name in list item to lowercase; search for input values
-		if (vm.markersArray()[i].title.toLowerCase().search(typedValue) > -1) {
-			vm.markersArray()[i].setVisible(true);	// show map marker(s)
+		if (ma[i].title.toLowerCase().search(typedValue) > -1) {
+			ma[i].setVisible(true);	// show map marker(s)
 		} else {
-			vm.markersArray()[i].setVisible(false);	// hide map marker(s)
+			ma[i].setVisible(false);	// hide map marker(s)
 		}
 	}
 };
@@ -177,12 +178,15 @@ ViewModel.createMarkers = function(data, images) {
   	'use strict';
 	var venue = data.response.venues[0];
 	var latlng = new google.maps.LatLng(venue.location.lat, venue.location.lng);
+	var bean = 'img/bean.png';
 
 	ViewModel.marker = new google.maps.Marker({
 		position: latlng,
 		map: ViewModel.map,
 		title: venue.name,
 		display: this.display,
+		animation: google.maps.Animation.DROP,
+		icon: bean,
 		image: images,
 		html: 	'<div class="cards-left">' +
 				'<h1 class="name">'+ venue.name + '</h1>' +
@@ -196,11 +200,20 @@ ViewModel.createMarkers = function(data, images) {
 
 	ViewModel.markersArray.push(ViewModel.marker);
 
-	// cycle through pictures and add to html document
+	// Add places info to the list
 	google.maps.event.addListener(ViewModel.marker, 'click', function() {
 		$('.place-info').empty();
 		$('.place-info').append(this.html);
 		$('.place-info').show();
+	});
+
+	//Make the markers bounce
+	google.maps.event.addListener(ViewModel.marker, 'click', function(){
+		if (this.getAnimation() != null) {
+			this.setAnimation(null);
+		} else {
+			this.setAnimation(google.maps.Animation.BOUNCE);
+		}
 	});
 };
 

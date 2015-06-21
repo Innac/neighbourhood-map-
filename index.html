@@ -6,18 +6,20 @@
   <title>Kaunas Coffee Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Ina Semionova">
-
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet'>
 
   <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/offline.css">
   <link rel="stylesheet" href="css/style.css">
 
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
   <script src="js/libs/jquery-1.11.3.min.js"></script>
   <script src="js/libs/knockout-3.3.0.js"></script>
+  <script src="js/libs/offline.min.js"></script>
 </head>
 <body>
-  <div id="coffee-map">
+  <div class="coffee-map">
     <div class="coffee-places three columns">
       <div class="search">
           <input class="search_box" data-bind="textInput: filterTerm, text: filter()" onkeyup="ViewModel.filterMarkers()" autofocus="autofocus">
@@ -38,5 +40,27 @@
 
   <script src="js/map.js"></script>
   <script src="js/model.js"></script>
+  <script>
+    //offline.js offline-online event handling
+      $(function(){
+
+          var 
+              $online = $('.online'),
+              $offline = $('.offline');
+
+          Offline.on('confirmed-down', function () {
+              $online.fadeOut(function () {
+                  $offline.fadeIn();
+              });
+          });
+
+          Offline.on('confirmed-up', function () {
+              $offline.fadeOut(function () {
+                  $online.fadeIn();
+              });
+          });
+
+      });
+  </script>
 </body>
 </html>
