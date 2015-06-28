@@ -26,6 +26,8 @@ var ViewModel = {
 	display: ko.observable(true)
 };
 
+//for the bouncing Markers
+var current=null;
 
 // filter list items
 ViewModel.filter = function() {
@@ -209,12 +211,17 @@ ViewModel.createMarkers = function(data, images) {
 
 	//Make the markers bounce
 	google.maps.event.addListener(ViewModel.marker, 'click', function(){
-		if (this.getAnimation() != null) {
-			this.setAnimation(null);
-		} else {
+		if (current != null)
+			current.setAnimation(null);
+
+		if (this.setAnimation() == null) {
+			current = this;
 			this.setAnimation(google.maps.Animation.BOUNCE);
+		} else {
+			this.setAnimation(null);
 		}
 	});
+
 };
 
 

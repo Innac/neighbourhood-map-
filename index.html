@@ -13,20 +13,33 @@
   <link rel="stylesheet" href="css/offline.css">
   <link rel="stylesheet" href="css/style.css">
 
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&libraries=places"></script>
   <script src="js/libs/jquery-1.11.3.min.js"></script>
   <script src="js/libs/knockout-3.3.0.js"></script>
   <script src="js/libs/offline.min.js"></script>
+  <script>
+    var run = function(){
+      if (Offline.state === 'up')
+        Offline.check();
+      }
+    setInterval(run, 5000);
+  </script>
 </head>
 <body>
   <div class="coffee-map">
     <div class="coffee-places three columns">
+      <div class="browse"></div>
       <div class="search">
-          <input class="search_box" data-bind="textInput: filterTerm, text: filter()" onkeyup="ViewModel.filterMarkers()" autofocus="autofocus">
+        <form>
+          <input class="search_box" data-bind="textInput: filterTerm, text: filter()" onkeyup="ViewModel.filterMarkers()" autofocus="autofocus" type="search" placeholder="Search">
+        </form>
       </div>
-      <ul class="coffee-places-list" data-bind="foreach: places_array">
-        <li class="cafe" data-bind="text: name, visible: display" onmouseup="ViewModel.pullData(this)"></li>
-      </ul>
+      <div class="clear" style="clear:both;"></div>
+      <div class="places-list-holder">
+          <ul data-bind="foreach: places_array">
+            <li data-bind="text: name, visible: display" onmouseup="ViewModel.pullData(this)"></li>
+          </ul>
+      </div>
       <div class="place-info"></div>
     </div>
 
@@ -41,26 +54,15 @@
   <script src="js/map.js"></script>
   <script src="js/model.js"></script>
   <script>
-    //offline.js offline-online event handling
-      $(function(){
-
-          var 
-              $online = $('.online'),
-              $offline = $('.offline');
-
-          Offline.on('confirmed-down', function () {
-              $online.fadeOut(function () {
-                  $offline.fadeIn();
-              });
-          });
-
-          Offline.on('confirmed-up', function () {
-              $offline.fadeOut(function () {
-                  $online.fadeIn();
-              });
-          });
-
-      });
+    $( ".places-list-holder" ).click(function() {
+      $(this).hide();
+    });
+    $(".search").click(function(){
+      $(".places-list-holder").show();
+    });
+    $( ".browse" ).click(function() {
+      $(".places-list-holder").toggle();
+    });
   </script>
 </body>
 </html>

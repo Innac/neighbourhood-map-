@@ -1,5 +1,5 @@
-body, 
-html, 
+body,
+html,
 #map-canvas {
 	width: 100%;
 	height: 100%;
@@ -12,14 +12,14 @@ html,
 	outline: 0;
 }
 
-pre, 
-blockquote, 
-dl, 
-figure, 
-table, 
-p, 
-ul, 
-ol, 
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
 form {
 	margin: 0;
 }
@@ -29,47 +29,34 @@ form {
 	height: 100%;
 }
 
-/* SEARCH BOX */
+/* Collapsible list*/
 
-.search {
-	padding: 5px;
-	margin-bottom: 10px;
-	background-color: #fff;
-	border: 1px solid #a79b88;
-	box-shadow: 1px 1px 2px rgba(79, 64, 40, 0.7);
+.browse {
+	float: left;
+	display: inline-block;
+	height: 45px;
+	width: 35px;
+	margin: 10px;
+	padding: 0 5px;
+	background: #ace44d;
+	background-image: url(../img/menu_icon.png);
+	background-size: 24px 24px;
+	background-position: 11px 12px;
+	background-repeat: no-repeat;
+	border: 1px solid #bef95b;
+	border-radius: 50%;
+	box-shadow: 0 2px 1px #7C6851;
+	cursor: pointer;
 }
 
-.search_box{
-	width: 100%;
-	border-radius: 0;
-	border:none;
-	height: 40px;
-	font-size: 22px;
+.places-list-holder ul{
 	margin: 0;
-	background: url(../img/search_icon.png) no-repeat;
-	background-position: 99% 50%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-/* LIST OF COFFEE PLACES */
-
-.coffee-places {
-	display: none;
-	position: absolute;
-	z-index: 1000;
-	padding: 10px;
-}
-
-.coffee-places-list {
-	display: none;
 	padding: 0;
 	background: #fff;
 	border-top: 1px solid #ccc;
 }
 
-.cafe {
+.places-list-holder ul li {
 	list-style: none;
 	border-bottom: 1px solid #ccc;
 	border-left: 1px solid #ccc;
@@ -78,6 +65,87 @@ form {
 	margin: 0;
 	font-size: 14px;
 	cursor: pointer;
+}
+
+/* SEARCH BOX */
+
+.search {
+	float: left;
+	display: inline-block;
+}
+
+input {
+	outline: none;
+}
+
+input[type=search] {
+	-webkit-appearance: textfield;
+	-webkit-box-sizing: content-box;
+	font-family: inherit;
+	font-size: 100%;
+}
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button {
+	display: none;
+}
+
+input[type=search] {
+	background: #ededed url(../img/search_icon.png) no-repeat 7px center;
+	width: 35px;
+	height: 45px;
+	padding: 0 0 0 10px;
+	color: transparent;
+	cursor: pointer;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	transition: all .5s;
+	-webkit-border-radius: 10em;
+	-moz-border-radius: 10em;
+	border-radius: 10em;
+	margin: 10px 0;
+	border: 1px solid #D0AA7E;
+	box-shadow: 0 2px 1px #7C6851;
+}
+
+input:-moz-placeholder {
+	color: #999;
+}
+
+input::-webkit-input-placeholder {
+	color: #999;
+}
+
+input[type=search]:hover {
+	background-color: #fff;
+}
+
+input[type=search]:focus {
+	width: 130px;
+	padding-left: 45px;
+	color: #000;
+	background-color: #fff;
+	cursor: auto;
+}
+
+input:-moz-placeholder {
+	color: transparent;
+}
+
+input::-webkit-input-placeholder {
+	color: transparent;
+}
+
+/* LIST OF COFFEE PLACES */
+
+.coffee-places {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	background-color: #b69978;
+	overflow: scroll;
+	z-index: 1000;
 }
 
 .name {
@@ -98,7 +166,6 @@ form {
 }
 
 .place-info {
-	border-radius: 3px;
 	z-index: 1000;
 	font-size: 12px;
 	overflow: hidden;
@@ -137,4 +204,23 @@ form {
 	padding: 15px;
 	text-align: center;
 	line-height: 30px;
+}
+
+/* Landscape */
+@media only screen and (min-width: 550px) {
+	.three.columns {
+		width: 28%!important;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.coffee-places {
+		height: auto;
+	}
+}
+
+@media only screen and (max-height: 450px) and (max-width: 700px) {
+	.three.columns {
+	  width: 38%!important;
+	}
 }
