@@ -9,4 +9,5 @@ REFERENCES
 
 - Knockout.js, Offline.js, JQuery.js documention;
 - Stackoverflow, Udacity forums;
+- Expandable search box: http://codepen.io/912lab/pen/LsplC
 
